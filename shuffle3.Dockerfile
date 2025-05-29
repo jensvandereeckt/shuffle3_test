@@ -18,6 +18,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Code klonen van GitHub (je mag dit vervangen met COPY als je lokaal werkt)
+RUN install_packages git
 RUN git clone https://github.com/jensvandereeckt/shuffle3_test.git /app/code && \
     cp /app/code/count_votes.py .
 
