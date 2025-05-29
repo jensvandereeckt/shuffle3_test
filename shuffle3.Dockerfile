@@ -18,7 +18,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Code klonen van GitHub (je mag dit vervangen met COPY als je lokaal werkt)
-RUN install_packages --allow-unauthenticated git
+# Zet veilige flags uit enkel voor deze build-stap
+RUN apt-get update -o Acquire::Check-Valid-Until=false \
+ && apt-get install -y --no-install-recommends git \
+ || true
 RUN git clone https://github.com/jensvandereeckt/shuffle3_test.git /app/code && \
     cp /app/code/count_votes.py .
 
