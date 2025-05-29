@@ -10,8 +10,8 @@ WORKDIR /app
 ENV PIP_NO_PROGRESS_BAR=off
 
 # Vereiste pakketten apart installeren (verdeeld om memory te besparen)
-RUN pip install google-api-python-client google-auth
-RUN pip install google-auth-httplib2 google-auth-oauthlib
+ENV PIP_PROGRESS_BAR=off
+RUN pip install --no-cache-dir --disable-pip-version-check --no-input google-api-python-client google-auth
 
 # Vereistenbestand kopiëren (als je meer wil toevoegen)
 COPY requirements.txt .
