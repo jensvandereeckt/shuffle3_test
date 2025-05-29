@@ -1,24 +1,21 @@
 FROM bitnami/spark:latest
 
-# Ga naar root user om extra Python libraries te kunnen installeren
+# Wissel naar root voor installaties
 USER root
 
-# Installeer extra Python packages voor Google Drive API
-RUN pip install --no-cache-dir \
-    google-api-python-client \
-    google-auth \
-    google-auth-httplib2 \
-    google-auth-oauthlib
+# Vereiste Python libraries installeren via requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Zet werkdirectory
 WORKDIR /app
 
-# Kopieer het script vanop GitHub (of plaats handmatig met COPY als alternatief)
+# Haal Python-script op van GitHub
 RUN git clone https://github.com/jensvandereeckt/shuffle_1.git /app/code && \
     cp /app/code/count_votes.py .
 
-# Geef werkdirectory de juiste rechten (voor latere mounting of loggen)
+# Zorg voor correcte rechten
 RUN chmod -R 755 /app
 
-# Service-account bestand mount je extern bij het runnen van Docker
+# Service account mount je later bij run
 CMD ["python", "count_votes.py"]
